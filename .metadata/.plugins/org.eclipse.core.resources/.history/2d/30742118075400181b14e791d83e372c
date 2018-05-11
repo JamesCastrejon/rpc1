@@ -1,7 +1,0 @@
-package rpc1.repos;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface ItemJpaRepository extends JpaRepository<Item, Integer> {
-
-}

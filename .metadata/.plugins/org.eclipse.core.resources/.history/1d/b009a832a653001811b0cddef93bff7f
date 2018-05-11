@@ -1,9 +1,0 @@
-package rpc1;
-
-import java.util.ArrayList;
-
-public class Category {
-	private int id;
-	private String name;
-	private List items = new ArrayList<Item>();
-}
