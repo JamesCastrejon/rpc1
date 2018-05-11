@@ -23,7 +23,7 @@ public class Category {
 	private String name;
 	
 	@OneToMany(mappedBy="category")
-	private List<Item> items = new ArrayList<>();
+	private List<Item> items = new ArrayList<Item>();
 	
 	public Category() {
 		
