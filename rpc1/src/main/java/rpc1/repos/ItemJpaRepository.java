@@ -16,5 +16,5 @@ public interface ItemJpaRepository extends JpaRepository<Item, Integer> {
 	Optional<Item> findById(Integer id);
 	
 	List<Item> findByNameLike(String name);
-	List<Item> findByName(String name, double cost);
+	List<Item> findByCost(double cost);
 }
