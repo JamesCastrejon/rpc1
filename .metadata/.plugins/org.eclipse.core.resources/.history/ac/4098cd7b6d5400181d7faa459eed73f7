@@ -1,0 +1,7 @@
+spring.datasource.url=jdbc:mysql://localhost/(NAME OF DATABASE)?useSSL=false
+spring.datasource.username=(NAME OF USER)
+spring.datasource.password=(PASSWORD OF USER)
+spring.datasource.driverClassName=com.mysql.jdbc.Driver
+spring.jpa.show-sql=true
+spring.jpa.hibernate.dialect=org.hibernate.dialect.MySql5InnoDBDialect
+spring.jpa.hibernate.ddl-auto=update

@@ -1,0 +1,12 @@
+package rpc1;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping
+public class MyRestController {
+	
+	public String sayHello(){
+		return "Hello World";
+	}
+}

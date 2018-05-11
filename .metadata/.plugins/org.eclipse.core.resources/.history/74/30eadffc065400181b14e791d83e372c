@@ -1,0 +1,5 @@
+package rpc1.repos;
+
+public interface ItemJpaRepository extends JpaRepository<Product, Integer> {
+
+}

@@ -1,0 +1,20 @@
+1525710727416	Encapsulate field 'id'
+1525710730838	Encapsulate field 'description'
+1525712829371	Encapsulate field 'secretCode'
+1525730539426	Delete element
+1525732309856	Rename field 'products'
+1525732382433	Encapsulate field 'id'
+1525732387090	Encapsulate field 'name'
+1525732394106	Encapsulate field 'cost'
+1525732398295	Encapsulate field 'details'
+1525798594658	Delete element
+1525883181435	Encapsulate field 'userName'
+1525883185043	Encapsulate field 'password'
+1525883188462	Encapsulate field 'cart'
+1525883193299	Encapsulate field 'history'
+1525885032551	Encapsulate field 'category'
+1525885654149	Copy package
+1525885657149	Delete element
+1525924968387	Delete element
+1525924975407	Copy package
+1525924981549	Delete element

@@ -1,0 +1,9 @@
+package rpc1;
+
+public class Item {
+
+	int id;
+	String name;
+	int cost;
+	String details;
+}

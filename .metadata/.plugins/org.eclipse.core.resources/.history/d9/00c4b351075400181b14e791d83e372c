@@ -1,0 +1,74 @@
+package rpc1;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import repos.ItemJpaRepository;
+
+@RestController // Now class is a controller for the restful rest service
+@RequestMapping("/items") // Basically a url
+public class MyRestController {
+
+	//private List<Item> items = new ArrayList<Item>();
+	@Autowired
+	private ItemJpaRepository itemRepo;
+
+	@RequestMapping(method=RequestMethod.POST)
+	public void addItem(
+			@RequestBody Item newI){
+		itemRepo.saveAndFlush(newI);
+//		items.add(newP);
+	}
+
+	@RequestMapping(method=RequestMethod.PUT)
+	public void updateItem(
+			@RequestBody Item I) {
+		
+		Item existing = itemRepo.findById(i.getID()).orElse(null);
+		existing.copy(p);
+		itemRepo.saveAndFlush(i);
+		
+//		Item existing = retrieveItem(I.getId());
+//		if(existing == null){
+//			throw new IllegalArgumentException("No existing product...");
+//		}
+//		existing.setDetails(I.getDetails());
+	}
+
+	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
+	public void deleteItem(
+			@PathVariable int id) {
+		itemRepo.deleteById(id);
+	}
+
+	@RequestMapping(path="/{id}", method=RequestMethod.GET)
+	public Item retrieveItem(
+			@PathVariable int id){
+		return itemRepo.findById(id).orElse(null);
+	}
+
+	@RequestMapping(method=RequestMethod.GET)
+	public List<Item> retrieveItems(
+			@RequestParam(required=false) Boolean sort){
+		
+		if(sort == null) {
+			return items;
+		}
+		
+		return items.stream()
+				.sorted((l, r) -> {
+					return (sort ? Long.compare(l.getId(), r.getId()) :
+						Long.compare(r.getId(), l.getId()));
+				})
+				.collect(Collectors.toList());
+	}
+}
