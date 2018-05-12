@@ -1,10 +1,9 @@
 package rpc1;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,55 +11,67 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import rpc1.repos.ItemJpaRepository;
-
-@RestController // Now class is a controller for the restful rest service
-@RequestMapping("/items") // Basically a url
+@RestController
+@RequestMapping("/items")
 public class MyRestController {
-
-	@Autowired
-	private ItemJpaRepository itemRepo;
+	
+	private List<Item> Items = new ArrayList<>();
 
 	@RequestMapping(method=RequestMethod.POST)
 	public void addItem(
-			@RequestBody Item newI){
-		itemRepo.saveAndFlush(newI);
+			@RequestBody Item newP) {
+		Items.add(newP);
 	}
-
+	
 	@RequestMapping(method=RequestMethod.PUT)
-	@Transactional
 	public void updateItem(
-			@RequestBody Item i) {
+			@RequestBody Item p) {
 		
-		Item existing = itemRepo.findById(i.getId()).orElse(null);
-		existing.copy(i);
-		itemRepo.saveAndFlush(existing);
+		Item existing = retrieveItem(p.getId());
+		if(existing == null) {
+			throw new IllegalArgumentException("No existing Item");
+		}
+		existing.setId(p.getId());
+		existing.setName(p.getName());
+		existing.setCost(p.getCost());
+		existing.setDetails(p.getDetails());
+		//existing.setCategory(p.getCategory());
 	}
-
+	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
 	public void deleteItem(
 			@PathVariable int id) {
-		itemRepo.deleteById(id);
+		Items.remove(id);
 	}
 	
-	@RequestMapping(path="/searchByName/{name}", method=RequestMethod.GET)
-	public List<Item> findItemByName(
-			@PathVariable String name) {
-		List<Item> results = itemRepo.findByNameLike(name);
-		return results;
-	}
-
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)
 	public Item retrieveItem(
-			@PathVariable int id){
-		Item results = itemRepo.findById(id).orElse(null);
-		return results;
+			@PathVariable int id) {
+		Item existing = Items.stream()
+				.filter(i -> i.getId() == id).findFirst().orElse(null);
+		return existing;
 	}
-
+	
 	@RequestMapping(method=RequestMethod.GET)
 	public List<Item> retrieveItems(
-			@RequestParam(required=false) Boolean sort){
+			@RequestParam(required=false) Boolean sort) {
 		
-		return itemRepo.findAll();
+		if(sort == null) {
+			return Items;
+		}
+		
+		return Items.stream()
+			.sorted((l,r) -> {
+						return (sort ?
+								Long.compare(l.getId(), r.getId()) :
+								Long.compare(r.getId(), l.getId()));
+					})
+			.collect(Collectors.toList());
 	}
 }
+
+
+
+
+
+

@@ -40,10 +40,10 @@ public class Test_End_Points {
 	@Test
 	public void basicModifyItem() {
 		Map<String,String> item = new HashMap<>();
-        item.put("id", "8");
+        item.put("id", "1");
         item.put("name", "Mushroom");
         item.put("cost", "5.00");
-        item.put("details", "Restores 5 HP.");
+        item.put("details", "Restores 10 HP.");
         //item.put("category", "Health.");
 
         given()
@@ -55,21 +55,14 @@ public class Test_End_Points {
 	
 	@Test
     public void basicGetItemById() {
-		given().pathParam("id", 9)
+		given().pathParam("id", 1)
 	    	.when().get("/items/{id}")
-	        .then().statusCode(200);
-    }
-	
-	@Test
-    public void basicGetItemByName() {
-		given().pathParam("name", "Mushroom")
-	    	.when().get("/items/searchByName/{name}")
 	        .then().statusCode(200);
     }
 
 	@Test
     public void basicDeleteItem() {
-		given().pathParam("id", 8)
+		given().pathParam("id", 0)
 	        .when().delete("/items/{id}")
 	        .then().statusCode(200);
     }
