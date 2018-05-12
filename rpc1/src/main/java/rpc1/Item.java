@@ -28,16 +28,6 @@ public class Item {
 	@JoinColumn(name="category_id")
 	private Category category;
 	
-	public Item(){
-		
-	}
-	public Item(int id, String name, double cost, String details){
-		this.id = id;
-		this.name = name;
-		this.cost = cost;
-		this.details = details;
-	}
-	
 	public int getId() {
 		return id;
 	}

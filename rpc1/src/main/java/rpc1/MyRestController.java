@@ -1,6 +1,7 @@
 package rpc1;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +53,8 @@ public class MyRestController {
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)
 	public Item retrieveItem(
 			@PathVariable int id){
-		return itemRepo.findById(id).orElse(null);
+		Item results = itemRepo.findById(id).orElse(null);
+		return results;
 	}
 
 	@RequestMapping(method=RequestMethod.GET)

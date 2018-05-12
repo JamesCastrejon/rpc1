@@ -11,10 +11,11 @@ import org.springframework.data.jpa.repository.Lock;
 import rpc1.Item;
 
 public interface ItemJpaRepository extends JpaRepository<Item, Integer> {
-	
+
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	Optional<Item> findById(Integer id);
+	Optional<Item> findById(int id);
 	
 	List<Item> findByNameLike(String name);
+	
 	List<Item> findByCost(double cost);
 }
