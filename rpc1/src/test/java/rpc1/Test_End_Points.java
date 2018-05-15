@@ -10,7 +10,7 @@ import org.junit.Test;
 public class Test_End_Points {
 
 	@Test
-	public void basicPingTest(){
+	public void basicItemPingTest(){
 		given().when().get("/items")
 			.then().statusCode(200);
 	}
@@ -18,10 +18,10 @@ public class Test_End_Points {
 	@Test
     public void basicCreateItem() {
         Map<String,String> item = new HashMap<>();
-        item.put("id", "1");
-        item.put("name", "Mushroom");
-        item.put("cost", "5.00");
-        item.put("details", "Restores 15 HP.");
+        item.put("id", "4");
+        item.put("name", "Spice");
+        item.put("cost", "10.00");
+        item.put("details", "Increases attack power.");
         //item.put("category", "Health.");
 
         given()
@@ -40,10 +40,10 @@ public class Test_End_Points {
 	@Test
 	public void basicModifyItem() {
 		Map<String,String> item = new HashMap<>();
-        item.put("id", "1");
-        item.put("name", "Mushroom");
-        item.put("cost", "5.00");
-        item.put("details", "Restores 10 HP.");
+        item.put("id", "2");
+        item.put("name", "1-UP Mushroom");
+        item.put("cost", "10.00");
+        item.put("details", "Restores 0 HP to 15 HP.");
         //item.put("category", "Health.");
 
         given()
@@ -55,7 +55,7 @@ public class Test_End_Points {
 	
 	@Test
     public void basicGetItemById() {
-		given().pathParam("id", 1)
+		given().pathParam("id", 3)
 	    	.when().get("/items/{id}")
 	        .then().statusCode(200);
     }
@@ -66,5 +66,5 @@ public class Test_End_Points {
 	        .when().delete("/items/{id}")
 	        .then().statusCode(200);
     }
-
+	
 }

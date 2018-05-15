@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/items")
-public class MyRestController {
+public class RestItemController {
 	
 	private List<Item> Items = new ArrayList<>();
 
