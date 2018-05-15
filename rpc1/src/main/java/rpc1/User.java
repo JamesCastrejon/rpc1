@@ -3,8 +3,17 @@ package rpc1;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class User {
+	@Id
+	private int id;
+	
+	@JsonView(EntityJsonViews.Summary.class)
 	private String userName;
+	
 	private String password;
 	private List cart = new ArrayList<Item>();
 	private List history = new ArrayList<Item>();
