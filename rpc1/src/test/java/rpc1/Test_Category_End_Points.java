@@ -7,21 +7,24 @@ import static org.junit.Assert.assertNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Test_Category_End_Points {
 
 	@Test
-	public void basicPingTest(){
+	public void AbasicPingTest(){
 		given().when().get("/categories")
 			.then().statusCode(200);
 	}
 	
 	@Test
-    public void basicCreateCategory() {
+    public void BbasicCreateCategory() {
         Map<String,String> category = new HashMap<>();
         category.put("id","1");
         category.put("name", "Test");
@@ -42,7 +45,7 @@ public class Test_Category_End_Points {
     }
 	
 	@Test
-    public void basicGetCategories() {
+    public void CbasicGetCategories() {
         Response r = given().when().get("/categories")
             .then().statusCode(200)
             .and()
@@ -56,7 +59,7 @@ public class Test_Category_End_Points {
     }
 
 	@Test
-	public void basicModifyCategory() {
+	public void DbasicModifyCategory() {
 		Map<String,String> category = new HashMap<>();
         category.put("id","1");
         category.put("name", "Testing");
@@ -77,7 +80,7 @@ public class Test_Category_End_Points {
 	}
 	
 	@Test
-    public void basicGetCategoryById() {
+    public void EbasicGetCategoryById() {
 		Response r = given().pathParam("id", 1)
 	    	.when().get("/categories/{id}")
 	        .then().statusCode(200)
@@ -92,7 +95,7 @@ public class Test_Category_End_Points {
     }
 
 	@Test
-    public void basicDeleteCategory() {
+    public void FbasicDeleteCategory() {
 		Response r = given().pathParam("id", 0)
 	        .when().delete("/categories/{id}")
 	        .then().statusCode(200)

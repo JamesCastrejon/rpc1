@@ -6,21 +6,24 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Test_User_End_Points {
 
 	@Test
-	public void basicUserPingTest(){
+	public void AbasicUserPingTest(){
 		given().when().get("/users")
 			.then().statusCode(200);
 	}
 	
 	@Test
-    public void basicCreateUser() {
+    public void BbasicCreateUser() {
         Map<String,String> user = new HashMap<>();
         user.put("userId","1");
         user.put("userName", "Test");
@@ -44,7 +47,7 @@ public class Test_User_End_Points {
     }
 	
 	@Test
-    public void basicGetUsers() {
+    public void CbasicGetUsers() {
         Response r = given().when().get("/users")
             .then().statusCode(200)
             .and()
@@ -59,7 +62,7 @@ public class Test_User_End_Points {
 
 	
 	@Test
-	public void basicModifyUser() {
+	public void DbasicModifyUser() {
 		Map<String,String> user = new HashMap<>();
         user.put("userId","1");
         user.put("userName", "Testing");
@@ -83,7 +86,7 @@ public class Test_User_End_Points {
 	}
 	
 	@Test
-    public void basicGetUserById() {
+    public void EbasicGetUserById() {
 		Response r = given().pathParam("id", 0)
 	    	.when().get("/users/{id}")
 	        .then().statusCode(200)
@@ -100,7 +103,7 @@ public class Test_User_End_Points {
     }
 
 	@Test
-    public void basicDeleteItem() {
+    public void FbasicDeleteItem() {
 		Response r = given().pathParam("id", 0)
 	        .when().delete("/users/{id}")
 	        .then().statusCode(200)

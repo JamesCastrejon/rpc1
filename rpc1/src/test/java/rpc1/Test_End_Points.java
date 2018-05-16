@@ -7,21 +7,24 @@ import static org.junit.Assert.assertNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Test_End_Points {
 
 	@Test
-	public void basicItemPingTest(){
+	public void AbasicItemPingTest(){
 		given().when().get("/items")
 			.then().statusCode(200);
 	}
 	
 	@Test
-    public void basicCreateItem() {
+    public void BbasicCreateItem() {
         Map<String,String> item = new HashMap<>();
         item.put("id", "1");
         item.put("name", "Spice");
@@ -49,7 +52,7 @@ public class Test_End_Points {
     }
 	
 	@Test
-    public void basicGetItems() {
+    public void CbasicGetItems() {
         Response r = given().when().get("/items")
             .then().statusCode(200)
             .and()
@@ -63,7 +66,7 @@ public class Test_End_Points {
     }
 	
 	@Test
-	public void basicModifyItem() {
+	public void DbasicModifyItem() {
 		Map<String,String> item = new HashMap<>();
         item.put("id", "1");
         item.put("name", "Mushroom");
@@ -91,7 +94,7 @@ public class Test_End_Points {
 	}
 	
 	@Test
-    public void basicGetItemById() {
+    public void EbasicGetItemById() {
 		Response r = given().pathParam("id", 1)
 	    	.when().get("/items/{id}")
 	        .then().statusCode(200)
@@ -110,7 +113,7 @@ public class Test_End_Points {
     }
 
 	@Test
-    public void basicDeleteItem() {
+    public void FbasicDeleteItem() {
 		Response r = given().pathParam("id", 0)
 	        .when().delete("/items/{id}")
 	        .then().statusCode(200)
