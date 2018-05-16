@@ -1,11 +1,16 @@
 package rpc1;
 
 import static com.jayway.restassured.RestAssured.given;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+
+import com.jayway.restassured.path.json.JsonPath;
+import com.jayway.restassured.response.Response;
 
 public class Test_End_Points {
 
@@ -18,53 +23,103 @@ public class Test_End_Points {
 	@Test
     public void basicCreateItem() {
         Map<String,String> item = new HashMap<>();
-        item.put("id", "4");
+        item.put("id", "1");
         item.put("name", "Spice");
         item.put("cost", "10.00");
         item.put("details", "Increases attack power.");
-        //item.put("category", "Health.");
+        // item.put("category", "Health.");
 
-        given()
-        .contentType("application/json")
-        .body(item)
-        .when().post("/items").then()
-        .statusCode(200);
+        Response r = given()
+	        .contentType("application/json")
+	        .body(item)
+	        .when().post("/items").then()
+	        .statusCode(200)
+	        .and()
+	        .extract().response();
+
+        JsonPath test = r.jsonPath();
+
+        assertEquals("Spice", test.getString("name"));
+        assertEquals("10.0", test.getString("cost"));
+        assertEquals("Increases attack power.", test.getString("details"));
+        System.out.println("Create Item");
+        System.out.println("name: Spice == " + test.getString("name"));
+        System.out.println("cost: 10.0 == " + test.getString("cost"));
+        System.out.println("details: Increases attack power. == " + test.getString("details"));
     }
 	
 	@Test
     public void basicGetItems() {
-        given().when().get("/items")
-            .then().statusCode(200);
+        Response r = given().when().get("/items")
+            .then().statusCode(200)
+            .and()
+            .extract().response();
+		
+        JsonPath test = r.jsonPath();
+
+        assertEquals(1, test.getInt("[0].id"));
+        System.out.println("Get Item list");
+        System.out.println("ID: 1 == " + test.getInt("[0].id"));
     }
 	
 	@Test
 	public void basicModifyItem() {
 		Map<String,String> item = new HashMap<>();
-        item.put("id", "2");
-        item.put("name", "1-UP Mushroom");
+        item.put("id", "1");
+        item.put("name", "Mushroom");
         item.put("cost", "10.00");
         item.put("details", "Restores 0 HP to 15 HP.");
         //item.put("category", "Health.");
 
-        given()
+        Response r = given()
 	        .contentType("application/json")
 	        .body(item)
 	        .when().put("/items").then()
-	        .statusCode(200);
+	        .statusCode(200)
+	        .and()
+	        .extract().response();
+
+       JsonPath test = r.jsonPath();
+
+       assertEquals("Mushroom", test.getString("name"));
+       assertEquals("10.0", test.getString("cost"));
+       assertEquals("Restores 0 HP to 15 HP.", test.getString("details"));
+       System.out.println("Update Item");
+       System.out.println("name: Mushroom == " + test.getString("name"));
+       System.out.println("cost: 10.0 == " + test.getString("cost"));
+       System.out.println("details: Restores 0 HP to 15 HP. == " + test.getString("details"));
 	}
 	
 	@Test
     public void basicGetItemById() {
-		given().pathParam("id", 3)
+		Response r = given().pathParam("id", 1)
 	    	.when().get("/items/{id}")
-	        .then().statusCode(200);
+	        .then().statusCode(200)
+            .and()
+            .extract().response();
+		
+        JsonPath test = r.jsonPath();
+
+        assertEquals("Mushroom", test.getString("name"));
+        assertEquals("10.0", test.getString("cost"));
+        assertEquals("Restores 0 HP to 15 HP.", test.getString("details"));
+        System.out.println("Get Item by ID");
+        System.out.println("name: Mushroom == " + test.getString("name"));
+        System.out.println("cost: 10.0 == " + test.getString("cost"));
+        System.out.println("details: Restores 0 HP to 15 HP. == " + test.getString("details"));
     }
 
 	@Test
     public void basicDeleteItem() {
-		given().pathParam("id", 0)
+		Response r = given().pathParam("id", 0)
 	        .when().delete("/items/{id}")
-	        .then().statusCode(200);
+	        .then().statusCode(200)
+            .and()
+            .extract().response();
+
+        assertEquals("", r.asString());
+        System.out.println("Delete Item");
+        System.out.println("Category == " + r.asString());
     }
 	
 }

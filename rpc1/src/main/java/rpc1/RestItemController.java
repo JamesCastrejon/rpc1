@@ -18,30 +18,33 @@ public class RestItemController {
 	private List<Item> Items = new ArrayList<>();
 
 	@RequestMapping(method=RequestMethod.POST)
-	public void addItem(
-			@RequestBody Item newP) {
-		Items.add(newP);
+	public Item addItem(
+			@RequestBody Item newI) {
+		Items.add(newI);
+		return retrieveItem(newI.getId());
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
-	public void updateItem(
-			@RequestBody Item p) {
+	public Item updateItem(
+			@RequestBody Item i) {
 		
-		Item existing = retrieveItem(p.getId());
+		Item existing = retrieveItem(i.getId());
 		if(existing == null) {
 			throw new IllegalArgumentException("No existing Item");
 		}
-		existing.setId(p.getId());
-		existing.setName(p.getName());
-		existing.setCost(p.getCost());
-		existing.setDetails(p.getDetails());
+		existing.setId(i.getId());
+		existing.setName(i.getName());
+		existing.setCost(i.getCost());
+		existing.setDetails(i.getDetails());
 		//existing.setCategory(p.getCategory());
+		return retrieveItem(i.getId());
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
-	public void deleteItem(
+	public Item deleteItem(
 			@PathVariable int id) {
 		Items.remove(id);
+		return retrieveItem(id);
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)

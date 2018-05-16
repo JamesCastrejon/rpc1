@@ -18,13 +18,14 @@ public class RestCategoryController {
 	private List<Category> categories = new ArrayList<>();
 
 	@RequestMapping(method=RequestMethod.POST)
-	public void addCategory(
+	public Category addCategory(
 			@RequestBody Category newC) {
 		categories.add(newC);
+		return retrieveCategory(newC.getId());
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
-	public void updateCategory(
+	public Category updateCategory(
 			@RequestBody Category c) {
 		
 		Category existing = retrieveCategory(c.getId());
@@ -33,12 +34,14 @@ public class RestCategoryController {
 		}
 		existing.setId(c.getId());
 		existing.setName(c.getName());
+		return retrieveCategory(c.getId());
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
-	public void deleteCategory(
+	public Category deleteCategory(
 			@PathVariable int id) {
 		categories.remove(id);
+		return retrieveCategory(id);
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)

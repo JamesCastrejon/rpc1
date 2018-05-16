@@ -18,28 +18,31 @@ public class RestUserController {
 	private List<User> Users = new ArrayList<>();
 
 	@RequestMapping(method=RequestMethod.POST)
-	public void addUser(
-			@RequestBody User newP) {
-		Users.add(newP);
+	public User addUser(
+			@RequestBody User newU) {
+		Users.add(newU);
+		return retrieveUser(newU.getId());
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
-	public void updateUser(
-			@RequestBody User p) {
+	public User updateUser(
+			@RequestBody User u) {
 		
-		User existing = retrieveUser(p.getId());
+		User existing = retrieveUser(u.getId());
 		if(existing == null) {
 			throw new IllegalArgumentException("No existing User");
 		}
-		existing.setId(p.getId());
-		existing.setUserName(p.getUserName());
-		existing.setPassword(p.getPassword());
+		existing.setId(u.getId());
+		existing.setUserName(u.getUserName());
+		existing.setPassword(u.getPassword());
+		return retrieveUser(u.getId());
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
-	public void deleteUser(
+	public User deleteUser(
 			@PathVariable int id) {
 		Users.remove(id);
+		return retrieveUser(id);
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)
