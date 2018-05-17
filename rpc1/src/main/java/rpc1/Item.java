@@ -25,7 +25,7 @@ public class Item {
 	private String details;
 	
 	@ManyToOne
-	@JoinColumn(name="category_id")
+	@JoinColumn(name="id")
 	private Category category;
 	
 	public int getId() {

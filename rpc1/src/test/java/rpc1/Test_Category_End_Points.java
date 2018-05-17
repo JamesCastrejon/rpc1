@@ -2,7 +2,6 @@ package rpc1;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +20,13 @@ public class Test_Category_End_Points {
 	public void AbasicPingTest(){
 		given().when().get("/categories")
 			.then().statusCode(200);
-	}
+	}// TODO: Test category in databases
 	
 	@Test
     public void BbasicCreateCategory() {
         Map<String,String> category = new HashMap<>();
-        category.put("id","1");
-        category.put("name", "Test");
+        category.put("category_id","1");
+        category.put("name", "Restoration");
 
         Response r = given()
 	        .contentType("application/json")
@@ -39,7 +38,7 @@ public class Test_Category_End_Points {
 	
 	        JsonPath test = r.jsonPath();
 	
-	        assertEquals("Test", test.getString("name"));
+	        assertEquals("Restoration", test.getString("name"));
 	        System.out.println("Create Category");
 	        System.out.println("name: Test == " + test.getString("name"));
     }

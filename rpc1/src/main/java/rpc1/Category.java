@@ -18,6 +18,8 @@ public class Category {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+	private int category_id;
+	
 	private String name;
 	
 	@OneToMany(mappedBy="category")
@@ -45,6 +47,20 @@ public class Category {
 
 	public void setItems(List<Item> Items) {
 		this.Items = Items;
+	}
+
+	public void copy(Category c) {
+		this.id = c.getId();
+		this.name = c.getName();
+		this.Items = c.getItems();
+	}
+
+	public int getCategory_id() {
+		return category_id;
+	}
+
+	public void setCategory_id(int category_id) {
+		this.category_id = category_id;
 	}
 	
 }

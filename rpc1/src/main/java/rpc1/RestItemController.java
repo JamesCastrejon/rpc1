@@ -1,9 +1,9 @@
 package rpc1;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,70 +11,62 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rpc1.repos.ItemJpaRepository;
+
 @RestController
 @RequestMapping("/items")
 public class RestItemController {
-	
-	private List<Item> Items = new ArrayList<>();
 
+	@Autowired
+	private ItemJpaRepository itemRepo;
+	
 	@RequestMapping(method=RequestMethod.POST)
+	@Transactional
 	public Item addItem(
 			@RequestBody Item newI) {
-		Items.add(newI);
+		itemRepo.saveAndFlush(newI);
 		return retrieveItem(newI.getId());
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
+	@Transactional
 	public Item updateItem(
 			@RequestBody Item i) {
 		
-		Item existing = retrieveItem(i.getId());
+		Item existing = itemRepo.findById(i.getId()).orElse(null);
 		if(existing == null) {
-			throw new IllegalArgumentException("No existing Item");
+			throw new IllegalArgumentException("No existing Category");
 		}
-		existing.setId(i.getId());
-		existing.setName(i.getName());
-		existing.setCost(i.getCost());
-		existing.setDetails(i.getDetails());
-		//existing.setCategory(p.getCategory());
+		existing.copy(i);
+		itemRepo.saveAndFlush(existing);
 		return retrieveItem(i.getId());
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
+	@Transactional
 	public Item deleteItem(
-			@PathVariable int id) {
-		Items.remove(id);
+			@PathVariable(value="id") int id) {
+		itemRepo.deleteById(id);
 		return retrieveItem(id);
 	}
 	
+	@RequestMapping(path="/searchByName/{name}", method=RequestMethod.GET)
+	public List<Item> findItemByName(
+			@PathVariable(value="name") String name) {
+		List<Item> results = itemRepo.findByName(name);
+		return results;
+	}
+	
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)
+	@Transactional
 	public Item retrieveItem(
-			@PathVariable int id) {
-		Item existing = Items.stream()
-				.filter(i -> i.getId() == id).findFirst().orElse(null);
-		return existing;
+			@PathVariable(value="id") int id) {
+		return itemRepo.findById(id).orElse(null);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public List<Item> retrieveItems(
 			@RequestParam(required=false) Boolean sort) {
-		
-		if(sort == null) {
-			return Items;
-		}
-		
-		return Items.stream()
-			.sorted((l,r) -> {
-						return (sort ?
-								Long.compare(l.getId(), r.getId()) :
-								Long.compare(r.getId(), l.getId()));
-					})
-			.collect(Collectors.toList());
+		return itemRepo.findAll();
 	}
 }
-
-
-
-
-
-

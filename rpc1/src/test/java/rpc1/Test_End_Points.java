@@ -22,15 +22,14 @@ public class Test_End_Points {
 		given().when().get("/items")
 			.then().statusCode(200);
 	}
-	
+	// TODO: give findbyItemName test
 	@Test
     public void BbasicCreateItem() {
         Map<String,String> item = new HashMap<>();
-        item.put("id", "1");
+        item.put("id", "18");
         item.put("name", "Spice");
         item.put("cost", "10.00");
         item.put("details", "Increases attack power.");
-        // item.put("category", "Health.");
 
         Response r = given()
 	        .contentType("application/json")
@@ -60,16 +59,16 @@ public class Test_End_Points {
 		
         JsonPath test = r.jsonPath();
 
-        assertEquals(1, test.getInt("[0].id"));
+        assertEquals(9, test.getInt("[0].id"));
         System.out.println("Get Item list");
-        System.out.println("ID: 1 == " + test.getInt("[0].id"));
+        System.out.println("ID: 9 == " + test.getInt("[0].id"));
     }
 	
 	@Test
 	public void DbasicModifyItem() {
 		Map<String,String> item = new HashMap<>();
-        item.put("id", "1");
-        item.put("name", "Mushroom");
+        item.put("id", "10");
+        item.put("name", "1-UP Mushroom");
         item.put("cost", "10.00");
         item.put("details", "Restores 0 HP to 15 HP.");
         //item.put("category", "Health.");
@@ -84,18 +83,18 @@ public class Test_End_Points {
 
        JsonPath test = r.jsonPath();
 
-       assertEquals("Mushroom", test.getString("name"));
+       assertEquals("1-UP Mushroom", test.getString("name"));
        assertEquals("10.0", test.getString("cost"));
        assertEquals("Restores 0 HP to 15 HP.", test.getString("details"));
        System.out.println("Update Item");
-       System.out.println("name: Mushroom == " + test.getString("name"));
+       System.out.println("name: 1-UP Mushroom == " + test.getString("name"));
        System.out.println("cost: 10.0 == " + test.getString("cost"));
        System.out.println("details: Restores 0 HP to 15 HP. == " + test.getString("details"));
 	}
 	
 	@Test
     public void EbasicGetItemById() {
-		Response r = given().pathParam("id", 1)
+		Response r = given().pathParam("id", 9)
 	    	.when().get("/items/{id}")
 	        .then().statusCode(200)
             .and()
@@ -104,17 +103,17 @@ public class Test_End_Points {
         JsonPath test = r.jsonPath();
 
         assertEquals("Mushroom", test.getString("name"));
-        assertEquals("10.0", test.getString("cost"));
-        assertEquals("Restores 0 HP to 15 HP.", test.getString("details"));
+        assertEquals("5.0", test.getString("cost"));
+        assertEquals("Restores 15 HP.", test.getString("details"));
         System.out.println("Get Item by ID");
         System.out.println("name: Mushroom == " + test.getString("name"));
-        System.out.println("cost: 10.0 == " + test.getString("cost"));
-        System.out.println("details: Restores 0 HP to 15 HP. == " + test.getString("details"));
+        System.out.println("cost: 5.0 == " + test.getString("cost"));
+        System.out.println("details: Restores 15 HP. == " + test.getString("details"));
     }
 
 	@Test
     public void FbasicDeleteItem() {
-		Response r = given().pathParam("id", 0)
+		Response r = given().pathParam("id", 14)
 	        .when().delete("/items/{id}")
 	        .then().statusCode(200)
             .and()
