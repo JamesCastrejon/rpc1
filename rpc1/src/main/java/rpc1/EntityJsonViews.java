@@ -4,6 +4,5 @@ public class EntityJsonViews {
 
 	public interface Summary {}
 	
-	public interface Details {}
-	
+	public interface Details extends Summary {}
 }
