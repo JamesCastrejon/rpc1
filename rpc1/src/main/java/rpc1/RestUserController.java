@@ -1,9 +1,10 @@
 package rpc1;
 
-import java.util.ArrayList;
+import java.io.Console;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,20 +12,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rpc1.repos.UserJpaRepository;
+
 @RestController
 @RequestMapping("/users")
 public class RestUserController {
-	
-	private List<User> Users = new ArrayList<>();
+
+	@Autowired
+	private UserJpaRepository userRepo;
 
 	@RequestMapping(method=RequestMethod.POST)
+	@Transactional
 	public User addUser(
 			@RequestBody User newU) {
-		Users.add(newU);
+		userRepo.saveAndFlush(newU);
 		return retrieveUser(newU.getId());
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
+	@Transactional
 	public User updateUser(
 			@RequestBody User u) {
 		
@@ -32,41 +38,29 @@ public class RestUserController {
 		if(existing == null) {
 			throw new IllegalArgumentException("No existing User");
 		}
-		existing.setId(u.getId());
-		existing.setUserName(u.getUserName());
-		existing.setPassword(u.getPassword());
+		existing.copy(u);
+		userRepo.saveAndFlush(existing);
 		return retrieveUser(u.getId());
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
+	@Transactional
 	public User deleteUser(
 			@PathVariable int id) {
-		Users.remove(id);
+		userRepo.deleteById(id);
 		return retrieveUser(id);
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)
+	@Transactional
 	public User retrieveUser(
 			@PathVariable int id) {
-		User existing = Users.stream()
-				.filter(i -> i.getId() == id).findFirst().orElse(null);
-		return existing;
+		return userRepo.findById(id).orElse(null);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public List<User> retrieveUsers(
 			@RequestParam(required=false) Boolean sort) {
-		
-		if(sort == null) {
-			return Users;
-		}
-		
-		return Users.stream()
-			.sorted((l,r) -> {
-						return (sort ?
-								Long.compare(l.getId(), r.getId()) :
-								Long.compare(r.getId(), l.getId()));
-					})
-			.collect(Collectors.toList());
+		return userRepo.findAll();
 	}
 }

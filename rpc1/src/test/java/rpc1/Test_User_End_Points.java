@@ -55,16 +55,16 @@ public class Test_User_End_Points {
 		
         JsonPath test = r.jsonPath();
 
-        assertEquals(0, test.getInt("[0].id"));
+        assertEquals(29, test.getInt("[0].id"));
         System.out.println("Get User list");
-        System.out.println("ID: 0 == " + test.getInt("[0].id"));
+        System.out.println("ID: 29 == " + test.getInt("[0].id"));
     }
 
 	
 	@Test
 	public void DbasicModifyUser() {
 		Map<String,String> user = new HashMap<>();
-        user.put("userId","1");
+        user.put("id","29");
         user.put("userName", "Testing");
         user.put("password", "Testing");
 
@@ -87,7 +87,7 @@ public class Test_User_End_Points {
 	
 	@Test
     public void EbasicGetUserById() {
-		Response r = given().pathParam("id", 0)
+		Response r = given().pathParam("id", 29)
 	    	.when().get("/users/{id}")
 	        .then().statusCode(200)
             .and()
@@ -104,7 +104,7 @@ public class Test_User_End_Points {
 
 	@Test
     public void FbasicDeleteItem() {
-		Response r = given().pathParam("id", 0)
+		Response r = given().pathParam("id", 29)
 	        .when().delete("/users/{id}")
 	        .then().statusCode(200)
             .and()

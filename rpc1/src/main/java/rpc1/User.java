@@ -58,4 +58,9 @@ public class User {
 //	public void setHistory(List history) {
 //		this.history = history;
 //	}
+	public void copy(User u) {
+		this.userId = u.getId();
+		this.userName = u.userName;
+		this.password = u.password;
+	}
 }

@@ -47,7 +47,7 @@ public class RestCategoryController {
 		itemRepo.saveAndFlush(newI);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT)
+	@RequestMapping(path="/{id}", method=RequestMethod.PUT)
 	@Transactional
 	public Category updateCategory(
 			@RequestBody Category c) {
