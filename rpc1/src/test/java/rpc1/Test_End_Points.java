@@ -51,6 +51,25 @@ public class Test_End_Points {
     }
 	
 	@Test
+    public void CbasicGetItemsByName() {
+        Response r = given().pathParam("name", "Mushroom")
+        	.when().get("/items/searchByName/{name}")
+            .then().statusCode(200)
+            .and()
+            .extract().response();
+		
+        JsonPath test = r.jsonPath();
+
+        assertEquals("Mushroom", test.getString("name").replace("[", "").replace("]", ""));
+        assertEquals("5.0", test.getString("cost").replace("[", "").replace("]", ""));
+        assertEquals("Restores 15 HP.", test.getString("details").replace("[", "").replace("]", ""));
+        System.out.println("Get Item by ID");
+        System.out.println("name: Mushroom == " + test.getString("name").replace("[", "").replace("]", ""));
+        System.out.println("cost: 5.0 == " + test.getString("cost").replace("[", "").replace("]", ""));
+        System.out.println("details: Restores 15 HP. == " + test.getString("details").replace("[", "").replace("]", ""));
+    }
+	
+	@Test
     public void CbasicGetItems() {
         Response r = given().when().get("/items")
             .then().statusCode(200)

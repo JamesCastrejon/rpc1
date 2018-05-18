@@ -42,6 +42,29 @@ public class Test_Category_End_Points {
 	        System.out.println("Create Category");
 	        System.out.println("name: Test == " + test.getString("name"));
     }
+	@Test
+    public void BbasicAddItemToCategory() {
+        Map<String,String> item = new HashMap<>();
+        item.put("id", "18");
+        item.put("name", "Test_Item");
+        item.put("cost", "10.00");
+        item.put("details", "Increases attack power.");
+        //item.put("category", "24");
+
+        Response r = given().pathParam("categoryId", 24)
+	        .contentType("application/json")
+	        .body(item)
+	        .when().post("/categories/{categoryId}/items").then()
+	        .statusCode(200)
+	        .and()
+	        .extract().response();
+	
+        JsonPath test = r.jsonPath();
+	
+        assertEquals(24, test.getInt("category"));
+        System.out.println("Create Category");
+        System.out.println("name: category == " + test.getInt("category"));
+    }
 	
 	@Test
     public void CbasicGetCategories() {

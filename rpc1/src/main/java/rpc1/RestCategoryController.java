@@ -31,11 +31,10 @@ public class RestCategoryController {
 		catRepo.saveAndFlush(newC);
 		return retrieveCategory(newC.getId());
 	}
-	// TODO: give addItemToCategory test
 
-	@RequestMapping(path="/{categoryId}/products",method=RequestMethod.POST)
+	@RequestMapping(path="/{categoryId}/items",method=RequestMethod.POST)
 	@Transactional
-	public void addItem(
+	public Category addItem(
 			@PathVariable(value="categoryId") Integer categoryId,
 			@RequestBody Item newI) {
 		
@@ -44,7 +43,10 @@ public class RestCategoryController {
 		}
 		Category c = catRepo.findById(categoryId).orElse(null);
 		c.getItems().add(newI);
+		newI.setCategory(c);
 		itemRepo.saveAndFlush(newI);
+		catRepo.saveAndFlush(c);
+		return c;
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.PUT)
