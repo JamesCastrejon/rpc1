@@ -26,10 +26,10 @@ public class Test_End_Points {
 	@Test
     public void BbasicCreateItem() {
         Map<String,String> item = new HashMap<>();
-        item.put("id", "18");
-        item.put("name", "Spice");
-        item.put("cost", "10.00");
-        item.put("details", "Increases attack power.");
+        item.put("id", "4");
+        item.put("name", "Test");
+        item.put("cost", "0.00");
+        item.put("details", "Just a Test.");
 
         Response r = given()
 	        .contentType("application/json")
@@ -41,18 +41,18 @@ public class Test_End_Points {
 
         JsonPath test = r.jsonPath();
 
-        assertEquals("Spice", test.getString("name"));
-        assertEquals("10.0", test.getString("cost"));
-        assertEquals("Increases attack power.", test.getString("details"));
+        assertEquals("Test", test.getString("name"));
+        assertEquals("0.0", test.getString("cost"));
+        assertEquals("Just a Test.", test.getString("details"));
         System.out.println("Create Item");
-        System.out.println("name: Spice == " + test.getString("name"));
-        System.out.println("cost: 10.0 == " + test.getString("cost"));
-        System.out.println("details: Increases attack power. == " + test.getString("details"));
+        System.out.println("name: Test == " + test.getString("name"));
+        System.out.println("cost: 0.0 == " + test.getString("cost"));
+        System.out.println("details: Just a Test. == " + test.getString("details"));
     }
 	
 	@Test
     public void CbasicGetItemsByName() {
-        Response r = given().pathParam("name", "Mushroom")
+        Response r = given().pathParam("name", "Test")
         	.when().get("/items/searchByName/{name}")
             .then().statusCode(200)
             .and()
@@ -60,9 +60,9 @@ public class Test_End_Points {
 		
         JsonPath test = r.jsonPath();
 
-        assertEquals("Mushroom", test.getString("name").replace("[", "").replace("]", ""));
-        assertEquals("5.0", test.getString("cost").replace("[", "").replace("]", ""));
-        assertEquals("Restores 15 HP.", test.getString("details").replace("[", "").replace("]", ""));
+        assertEquals("Test", test.getString("name").replace("[", "").replace("]", ""));
+        assertEquals("0.0", test.getString("cost").replace("[", "").replace("]", ""));
+        assertEquals("Just a Test.", test.getString("details").replace("[", "").replace("]", ""));
         System.out.println("Get Item by ID");
         System.out.println("name: Mushroom == " + test.getString("name").replace("[", "").replace("]", ""));
         System.out.println("cost: 5.0 == " + test.getString("cost").replace("[", "").replace("]", ""));
@@ -78,18 +78,18 @@ public class Test_End_Points {
 		
         JsonPath test = r.jsonPath();
 
-        assertEquals(9, test.getInt("[0].id"));
+        assertEquals(1, test.getInt("[0].id"));
         System.out.println("Get Item list");
-        System.out.println("ID: 9 == " + test.getInt("[0].id"));
+        System.out.println("ID: 1 == " + test.getInt("[0].id"));
     }
 	
 	@Test
 	public void DbasicModifyItem() {
 		Map<String,String> item = new HashMap<>();
-        item.put("id", "10");
-        item.put("name", "1-UP Mushroom");
-        item.put("cost", "10.00");
-        item.put("details", "Restores 0 HP to 15 HP.");
+        item.put("id", "1");
+        item.put("name", "Testing");
+        item.put("cost", "0.00");
+        item.put("details", "Being Tested.");
         //item.put("category", "Health.");
 
         Response r = given()
@@ -102,18 +102,18 @@ public class Test_End_Points {
 
        JsonPath test = r.jsonPath();
 
-       assertEquals("1-UP Mushroom", test.getString("name"));
-       assertEquals("10.0", test.getString("cost"));
-       assertEquals("Restores 0 HP to 15 HP.", test.getString("details"));
+       assertEquals("Testing", test.getString("name"));
+       assertEquals("0.0", test.getString("cost"));
+       assertEquals("Being Tested.", test.getString("details"));
        System.out.println("Update Item");
-       System.out.println("name: 1-UP Mushroom == " + test.getString("name"));
-       System.out.println("cost: 10.0 == " + test.getString("cost"));
-       System.out.println("details: Restores 0 HP to 15 HP. == " + test.getString("details"));
+       System.out.println("name: Testing == " + test.getString("name"));
+       System.out.println("cost: 0.0 == " + test.getString("cost"));
+       System.out.println("details: Being Tested. == " + test.getString("details"));
 	}
 	
 	@Test
     public void EbasicGetItemById() {
-		Response r = given().pathParam("id", 9)
+		Response r = given().pathParam("id", 1)
 	    	.when().get("/items/{id}")
 	        .then().statusCode(200)
             .and()
@@ -121,18 +121,18 @@ public class Test_End_Points {
 		
         JsonPath test = r.jsonPath();
 
-        assertEquals("Mushroom", test.getString("name"));
-        assertEquals("5.0", test.getString("cost"));
-        assertEquals("Restores 15 HP.", test.getString("details"));
+        assertEquals("Testing", test.getString("name"));
+        assertEquals("0.0", test.getString("cost"));
+        assertEquals("Being Tested.", test.getString("details"));
         System.out.println("Get Item by ID");
-        System.out.println("name: Mushroom == " + test.getString("name"));
-        System.out.println("cost: 5.0 == " + test.getString("cost"));
-        System.out.println("details: Restores 15 HP. == " + test.getString("details"));
+        System.out.println("name: Testing == " + test.getString("name"));
+        System.out.println("cost: 0.0 == " + test.getString("cost"));
+        System.out.println("details: Being Tested. == " + test.getString("details"));
     }
 
 	@Test
     public void FbasicDeleteItem() {
-		Response r = given().pathParam("id", 14)
+		Response r = given().pathParam("id", 1)
 	        .when().delete("/items/{id}")
 	        .then().statusCode(200)
             .and()

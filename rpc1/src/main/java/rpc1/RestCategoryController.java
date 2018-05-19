@@ -49,7 +49,7 @@ public class RestCategoryController {
 		return c;
 	}
 	
-	@RequestMapping(path="/{id}", method=RequestMethod.PUT)
+	@RequestMapping(method=RequestMethod.PUT)
 	@Transactional
 	public Category updateCategory(
 			@RequestBody Category c) {

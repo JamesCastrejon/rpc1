@@ -3,6 +3,7 @@ package rpc1;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,18 +11,20 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="categories")
 public class Category {
 
 	@Id
+	@Column(name="category_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	private int category_id;
-	
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="category")
 	private List<Item> Items = new ArrayList<>();
 
@@ -41,6 +44,7 @@ public class Category {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public List<Item> getItems() {
 		return Items;
 	}
@@ -53,14 +57,6 @@ public class Category {
 		this.id = c.getId();
 		this.name = c.getName();
 		this.Items = c.getItems();
-	}
-
-	public int getCategory_id() {
-		return category_id;
-	}
-
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
 	}
 	
 }

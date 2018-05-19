@@ -25,8 +25,8 @@ public class Test_Category_End_Points {
 	@Test
     public void BbasicCreateCategory() {
         Map<String,String> category = new HashMap<>();
-        category.put("category_id","3");
-        category.put("name", "test");
+        category.put("category_id","1");
+        category.put("name", "Test");
 
         Response r = given()
 	        .contentType("application/json")
@@ -38,20 +38,19 @@ public class Test_Category_End_Points {
 	
 	        JsonPath test = r.jsonPath();
 	
-	        assertEquals("test", test.getString("name"));
+	        assertEquals("Test", test.getString("name"));
 	        System.out.println("Create Category");
 	        System.out.println("name: Test == " + test.getString("name"));
     }
 	@Test
     public void BbasicAddItemToCategory() {
         Map<String,String> item = new HashMap<>();
-        item.put("id", "18");
+        item.put("id", "11");
         item.put("name", "Test_Item");
         item.put("cost", "10.00");
-        item.put("details", "Increases attack power.");
-        //item.put("category", "24");
+        item.put("details", "Test Item.");
 
-        Response r = given().pathParam("categoryId", 24)
+        Response r = given().pathParam("categoryId", 9)
 	        .contentType("application/json")
 	        .body(item)
 	        .when().post("/categories/{categoryId}/items").then()
@@ -61,9 +60,9 @@ public class Test_Category_End_Points {
 	
         JsonPath test = r.jsonPath();
 	
-        assertEquals(24, test.getInt("category"));
+        assertEquals("Test", test.getString("name"));
         System.out.println("Create Category");
-        System.out.println("name: category == " + test.getInt("category"));
+        System.out.println("name: Test == " + test.getString("name"));
     }
 	
 	@Test
@@ -75,17 +74,16 @@ public class Test_Category_End_Points {
 		
         JsonPath test = r.jsonPath();
 
-        assertEquals(1, test.getInt("[0].category_id"));
+        assertEquals(9, test.getInt("[0].id"));
         System.out.println("Get Category list");
-        System.out.println("ID: 1 == " + test.getInt("[0].category_id"));
+        System.out.println("ID: 9 == " + test.getInt("[0].id"));
     }
 
 	@Test
 	public void DbasicModifyCategory() {
 		Map<String,String> category = new HashMap<>();
-        category.put("category_id","2");
-        category.put("id","26");
-        category.put("name", "Herb");
+        category.put("id","4");
+        category.put("name", "Testing");
 
         Response r = given()
 	        .contentType("application/json")
@@ -97,14 +95,14 @@ public class Test_Category_End_Points {
 
        JsonPath test = r.jsonPath();
 
-       assertEquals("Herb", test.getString("name"));
+       assertEquals("Testing", test.getString("name"));
        System.out.println("Update Category");
-       System.out.println("name: Herb == " + test.getString("name"));
+       System.out.println("name: Testing == " + test.getString("name"));
 	}
 	
 	@Test
     public void EbasicGetCategoryById() {
-		Response r = given().pathParam("id", 24)
+		Response r = given().pathParam("id", 4)
 	    	.when().get("/categories/{id}")
 	        .then().statusCode(200)
             .and()
@@ -112,14 +110,14 @@ public class Test_Category_End_Points {
 		
         JsonPath test = r.jsonPath();
 
-        assertEquals("Restoration", test.getString("name"));
+        assertEquals("Testing", test.getString("name"));
         System.out.println("Get Category by ID");
-        System.out.println("name: Restoration == " + test.getString("name"));
+        System.out.println("name: Testing == " + test.getString("name"));
     }
 
 	@Test
     public void FbasicDeleteCategory() {
-		Response r = given().pathParam("id", 28)
+		Response r = given().pathParam("id", 5)
 	        .when().delete("/categories/{id}")
 	        .then().statusCode(200)
             .and()
