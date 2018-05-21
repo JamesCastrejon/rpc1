@@ -45,6 +45,8 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.anyRequest()
+			.permitAll().antMatchers("/registration")// can be chained to allow mor urls
+			.permitAll().antMatchers("/whatever")
 			.authenticated()
 			.and()
 			.httpBasic();
