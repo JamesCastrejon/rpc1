@@ -22,11 +22,11 @@ public class Test_End_Points {
 		given().when().get("/items")
 			.then().statusCode(200);
 	}
-	// TODO: give findbyItemName test
+
 	@Test
     public void BbasicCreateItem() {
         Map<String,String> item = new HashMap<>();
-        item.put("id", "4");
+        item.put("id", "1");
         item.put("name", "Test");
         item.put("cost", "0.00");
         item.put("details", "Just a Test.");
@@ -64,9 +64,9 @@ public class Test_End_Points {
         assertEquals("0.0", test.getString("cost").replace("[", "").replace("]", ""));
         assertEquals("Just a Test.", test.getString("details").replace("[", "").replace("]", ""));
         System.out.println("Get Item by ID");
-        System.out.println("name: Mushroom == " + test.getString("name").replace("[", "").replace("]", ""));
-        System.out.println("cost: 5.0 == " + test.getString("cost").replace("[", "").replace("]", ""));
-        System.out.println("details: Restores 15 HP. == " + test.getString("details").replace("[", "").replace("]", ""));
+        System.out.println("name: Test == " + test.getString("name").replace("[", "").replace("]", ""));
+        System.out.println("cost: 0.0 == " + test.getString("cost").replace("[", "").replace("]", ""));
+        System.out.println("details: Just a Test. == " + test.getString("details").replace("[", "").replace("]", ""));
     }
 	
 	@Test

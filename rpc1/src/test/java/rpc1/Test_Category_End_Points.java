@@ -25,7 +25,7 @@ public class Test_Category_End_Points {
 	@Test
     public void BbasicCreateCategory() {
         Map<String,String> category = new HashMap<>();
-        category.put("category_id","1");
+        category.put("category_id","3");
         category.put("name", "Test");
 
         Response r = given()
@@ -42,15 +42,16 @@ public class Test_Category_End_Points {
 	        System.out.println("Create Category");
 	        System.out.println("name: Test == " + test.getString("name"));
     }
+	
 	@Test
-    public void BbasicAddItemToCategory() {
+    public void CbasicAddItemToCategory() {
         Map<String,String> item = new HashMap<>();
-        item.put("id", "11");
+        item.put("id", "5");
         item.put("name", "Test_Item");
         item.put("cost", "10.00");
         item.put("details", "Test Item.");
 
-        Response r = given().pathParam("categoryId", 9)
+        Response r = given().pathParam("categoryId", 3)
 	        .contentType("application/json")
 	        .body(item)
 	        .when().post("/categories/{categoryId}/items").then()
@@ -66,7 +67,7 @@ public class Test_Category_End_Points {
     }
 	
 	@Test
-    public void CbasicGetCategories() {
+    public void DbasicGetCategories() {
         Response r = given().when().get("/categories")
             .then().statusCode(200)
             .and()
@@ -74,15 +75,15 @@ public class Test_Category_End_Points {
 		
         JsonPath test = r.jsonPath();
 
-        assertEquals(9, test.getInt("[0].id"));
+        assertEquals(3, test.getInt("[0].id"));
         System.out.println("Get Category list");
-        System.out.println("ID: 9 == " + test.getInt("[0].id"));
+        System.out.println("ID: 3 == " + test.getInt("[0].id"));
     }
 
 	@Test
-	public void DbasicModifyCategory() {
+	public void EbasicModifyCategory() {
 		Map<String,String> category = new HashMap<>();
-        category.put("id","4");
+        category.put("id","3");
         category.put("name", "Testing");
 
         Response r = given()
@@ -101,8 +102,8 @@ public class Test_Category_End_Points {
 	}
 	
 	@Test
-    public void EbasicGetCategoryById() {
-		Response r = given().pathParam("id", 4)
+    public void FbasicGetCategoryById() {
+		Response r = given().pathParam("id", 3)
 	    	.when().get("/categories/{id}")
 	        .then().statusCode(200)
             .and()
@@ -116,8 +117,8 @@ public class Test_Category_End_Points {
     }
 
 	@Test
-    public void FbasicDeleteCategory() {
-		Response r = given().pathParam("id", 5)
+    public void GbasicDeleteCategory() {
+		Response r = given().pathParam("id", 3)
 	        .when().delete("/categories/{id}")
 	        .then().statusCode(200)
             .and()

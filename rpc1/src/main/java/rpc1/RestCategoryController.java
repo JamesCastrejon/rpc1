@@ -67,9 +67,16 @@ public class RestCategoryController {
 	@Transactional
 	public Category deleteCategory(
 			@PathVariable int id) {
+		
+		Category c = retrieveCategory(id);
+		for(Item i : c.getItems()) {
+			i.setCategory(null);
+			itemRepo.saveAndFlush(i);
+		}
+		
 		catRepo.deleteById(id);
 		return retrieveCategory(id);
-	}
+	} // TODO: somehow remove foriegn key constraint
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)
 	@Transactional
