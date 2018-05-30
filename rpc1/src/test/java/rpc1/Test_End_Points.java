@@ -90,7 +90,6 @@ public class Test_End_Points {
         item.put("name", "Testing");
         item.put("cost", "0.00");
         item.put("details", "Being Tested.");
-        //item.put("category", "Health.");
 
         Response r = given()
 	        .contentType("application/json")
@@ -140,7 +139,7 @@ public class Test_End_Points {
 
         assertEquals("", r.asString());
         System.out.println("Delete Item");
-        System.out.println("Category == " + r.asString());
+        System.out.println("Item == " + r.asString());
     }
 	
 }
