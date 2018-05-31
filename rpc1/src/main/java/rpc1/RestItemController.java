@@ -3,6 +3,7 @@ package rpc1;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,7 @@ public class RestItemController {
 	}
 	
 	@RequestMapping(path="/{itemId}/media",method=RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@Transactional
 	public Item addMedia(
 			@PathVariable(value="itemId") Integer itemId,
@@ -51,6 +53,7 @@ public class RestItemController {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@Transactional
 	public Item updateItem(
 			@RequestBody Item i) {
@@ -65,6 +68,7 @@ public class RestItemController {
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@Transactional
 	public Item deleteItem(
 			@PathVariable(value="id") int id) {

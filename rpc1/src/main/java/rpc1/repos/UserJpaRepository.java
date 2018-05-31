@@ -13,4 +13,7 @@ public interface UserJpaRepository extends JpaRepository<User, Integer> {
 	
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	Optional<User> findById(Integer id);
+
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	Optional<User> findByUserName(String username);
 }

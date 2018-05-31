@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name="users")
@@ -23,8 +26,12 @@ public class User {
 	
 	private String password;
 	
-//	private List cart = new ArrayList<Item>();
-//	private List history = new ArrayList<Item>();
+	@ElementCollection
+	private List<String> roles = new ArrayList<>();
+	
+	@JsonView(value= {EntityJsonViews.Summary.class, EntityJsonViews.Details.class})
+	private String email;
+	
 	public User(){
 		
 	}
@@ -38,6 +45,9 @@ public class User {
 		return userName;
 	}
 	public void setUserName(String userName) {
+		if(userName == null) {
+			throw new IllegalArgumentException("cannot be null");
+		}
 		this.userName = userName;
 	}
 	public String getPassword() {

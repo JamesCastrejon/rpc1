@@ -3,6 +3,7 @@ package rpc1;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ public class RestCategoryController {
 	private CategoryJpaRepository catRepo;
 
 	@RequestMapping(method=RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@Transactional
 	public Category addCategory(
 			@RequestBody Category newC) {
@@ -33,6 +35,7 @@ public class RestCategoryController {
 	}
 
 	@RequestMapping(path="/{categoryId}/items",method=RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@Transactional
 	public Category addItem(
 			@PathVariable(value="categoryId") Integer categoryId,
@@ -50,6 +53,7 @@ public class RestCategoryController {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@Transactional
 	public Category updateCategory(
 			@RequestBody Category c) {
@@ -64,6 +68,7 @@ public class RestCategoryController {
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@Transactional
 	public Category deleteCategory(
 			@PathVariable int id) {
