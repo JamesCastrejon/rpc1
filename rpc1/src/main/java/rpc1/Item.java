@@ -24,6 +24,8 @@ public class Item {
 	
 	private String details;
 	
+	private int imageID;
+	
 	@ManyToOne
 	@JoinColumn(name="category_id")
 	private Category category;
@@ -61,6 +63,12 @@ public class Item {
 	}
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	public int getImageID() {
+		return imageID;
+	}
+	public void setImageID(int imageID) {
+		this.imageID = imageID;
 	}
 	public void copy(Item i) {
 		this.setId(i.getId());

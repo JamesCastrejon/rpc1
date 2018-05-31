@@ -2,7 +2,6 @@ package rpc1.mongo.core;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.List;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -24,7 +22,7 @@ import rpc1.repos.MediaMongoRepository;
 public class RestMongoController {
 
 	@Autowired
-	MediaMongoRepository mediaRepo;
+	private MediaMongoRepository mediaRepo;
 
 	@RequestMapping(method=RequestMethod.POST)
 	public Media storeFile(

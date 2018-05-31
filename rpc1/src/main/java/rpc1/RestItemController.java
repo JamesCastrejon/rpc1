@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rpc1.mongo.core.Media;
 import rpc1.repos.ItemJpaRepository;
+import rpc1.repos.MediaMongoRepository;
 
 @RestController
 @RequestMapping("/items")
@@ -20,12 +22,32 @@ public class RestItemController {
 	@Autowired
 	private ItemJpaRepository itemRepo;
 	
+	@Autowired
+	private MediaMongoRepository mediaRepo;
+	
 	@RequestMapping(method=RequestMethod.POST)
 	@Transactional
 	public Item addItem(
 			@RequestBody Item newI) {
 		itemRepo.saveAndFlush(newI);
 		return retrieveItem(newI.getId());
+	}
+	
+	@RequestMapping(path="/{itemId}/media",method=RequestMethod.POST)
+	@Transactional
+	public Item addMedia(
+			@PathVariable(value="itemId") Integer itemId,
+			@RequestBody Media newM) {
+		
+		if(newM == null || newM.getFilePath() == null) {
+			throw new IllegalArgumentException("cannot be null");
+		}
+		Item i = itemRepo.findById(itemId).orElse(null);
+		i.setImageID(newM.getId());
+		newM.setItem_Id(i.getId());
+		itemRepo.saveAndFlush(i);
+		mediaRepo.save(newM);
+		return i;
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
