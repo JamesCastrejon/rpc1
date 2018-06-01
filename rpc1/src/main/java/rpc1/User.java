@@ -29,9 +29,6 @@ public class User {
 	@ElementCollection
 	private List<String> roles = new ArrayList<>();
 	
-	@JsonView(value= {EntityJsonViews.Summary.class, EntityJsonViews.Details.class})
-	private String email;
-	
 	public User(){
 		
 	}
@@ -56,18 +53,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-//	public List getCart() {
-//		return cart;
-//	}
-//	public void setCart(List cart) {
-//		this.cart = cart;
-//	}
-//	public List getHistory() {
-//		return history;
-//	}
-//	public void setHistory(List history) {
-//		this.history = history;
-//	}
 	public void copy(User u) {
 		this.userId = u.getId();
 		this.userName = u.userName;

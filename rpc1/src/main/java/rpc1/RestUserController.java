@@ -57,7 +57,6 @@ public class RestUserController {
 	}
 	
 	@RequestMapping(path="/{username}", method=RequestMethod.GET)
-	@JsonView(EntityJsonViews.Details.class)
 	@Transactional
 	public User getUser(
 			@PathVariable String username) {

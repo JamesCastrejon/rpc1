@@ -23,7 +23,7 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 		builder.jdbcAuthentication()
 			.dataSource(datasource)
 			.usersByUsernameQuery(
-					"select username, password, true from user where username=?")
+					"select user_name, password, true from users where user_name=?")
 			.authoritiesByUsernameQuery(
 					"select user_username, roles from user_roles where user_username=?")
 			.passwordEncoder(new PasswordEncoder() {
@@ -42,15 +42,15 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http.authorizeRequests().antMatchers("/registration")
+			.permitAll()
 			.anyRequest()
-			.permitAll().antMatchers("/registration")
 			.authenticated()
 			.and()
 			.httpBasic()
 			.and()
 			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.NEVER);;
+			.sessionCreationPolicy(SessionCreationPolicy.NEVER);
 	}
 	
 }
