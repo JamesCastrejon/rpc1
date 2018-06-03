@@ -42,9 +42,10 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/registration")
-			.permitAll()
-			.anyRequest()
+		http.authorizeRequests()
+			.antMatchers("/registration").permitAll()
+			.antMatchers("/whatever").permitAll() 
+			.anyRequest() 
 			.authenticated()
 			.and()
 			.httpBasic()
@@ -52,5 +53,4 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.NEVER);
 	}
-	
 }
